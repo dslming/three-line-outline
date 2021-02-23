@@ -10,10 +10,10 @@ export class OutlineMaterial extends ShaderMaterial {
       vertexShader,
       fragmentShader,
       uniforms: {
-        uAngleThresh: { value: 0 },
-        uOutline: { value: 0 },
-        uColor: { value: new Color() },
-      },
+        uAngleThresh: { value: 0,type: "f" },
+        uOutline: { value: 0,type: "f" },
+        uColor: { value: new Color(),type: "c" },
+      } as any,
     })
     this.angleThreshold = _angleThreshold
     this.outline = outline

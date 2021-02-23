@@ -6,9 +6,13 @@ import {
   PerspectiveCamera,
   Scene,
   SphereBufferGeometry,
+  PlaneBufferGeometry,
+  BoxBufferGeometry,
   Vector2,
   WebGLRenderer,
 } from 'three'
+import * as THREE from 'three'
+window.THREE = THREE
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { OutlineMaterial } from '../OutlineMaterial'
 import { OutlineMesh } from '../OutlineMesh'
@@ -16,7 +20,8 @@ import { OutlineMesh } from '../OutlineMesh'
 document.body.style.margin = '0'
 
 const clock = new Clock()
-const scene = new Scene()
+const scene = new Scene();
+(window as any).scene = scene
 const camera = new PerspectiveCamera(60, 1, 1, 1000)
 const renderer = new WebGLRenderer()
 const resolution = new Vector2()
@@ -37,33 +42,26 @@ const onResize = () => {
 onResize()
 window.addEventListener('resize', onResize)
 
-const pg = new SphereBufferGeometry(1, 32, 16)
-const cg = new CylinderBufferGeometry(1, 2, 2, 32, 1, false)
+const pg = new BoxBufferGeometry(1, 1, 1)
+// const cg = new CylinderBufferGeometry(1, 2, 2, 32, 1, false)
 const m = new MeshBasicMaterial({
   transparent: true,
+  color:0xdddddd,
   opacity: 0.85,
   polygonOffset: true,
   polygonOffsetUnits: 2,
   polygonOffsetFactor: 1,
 })
 const pm = new Mesh(pg, m)
-const cm = new Mesh(cg, m)
 const mat = new OutlineMaterial(60, true, '#000')
 const po = new OutlineMesh(pm, mat)
-const co = new OutlineMesh(cm, mat)
-po.add(pm)
-co.add(cm)
+// po.add(pm)
 
-po.position.x = 2
-co.position.x = -2
 scene.add(po)
-scene.add(co)
 
 function animate() {
   const dt = clock.getDelta()
   requestAnimationFrame(animate)
   renderer.render(scene, camera)
-  co.rotation.x += dt
-  co.rotation.z += dt
 }
 animate()

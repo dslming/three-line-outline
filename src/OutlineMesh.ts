@@ -39,6 +39,7 @@ export class OutlineMesh extends LineSegments {
     g.setAttribute('aN1', new BufferAttribute(new Float32Array(n1Array), 3))
   }
 
+  // 提取顶点索引
   private _extractIndexed(geometry: BufferGeometry): IEdgeArrays {
     const { weldedIndices, weldedVertices } = this._weldIndexed(
       geometry.index!,
@@ -63,6 +64,7 @@ export class OutlineMesh extends LineSegments {
     return { vArray, n0Array, n1Array }
   }
 
+  // 提交交汇处的顶点和顶点索引
   private _weldIndexed(
     indexBuffer: BufferAttribute,
     positionBuffer: BufferAttribute,
@@ -99,6 +101,7 @@ export class OutlineMesh extends LineSegments {
     return { weldedVertices, weldedIndices }
   }
 
+  // 提取边
   private _extractEdgesFromIndex(
     indexBuffer: number[],
     positionBuffer: number[],
@@ -108,6 +111,7 @@ export class OutlineMesh extends LineSegments {
     const bv = new Vector3()
     const cv = new Vector3()
 
+    // 计算面的法线
     for (let t = 0; t < indexBuffer.length; t += 3) {
       const normal = new Vector3()
       av.fromArray(positionBuffer, indexBuffer[t] * 3)
